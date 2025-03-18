@@ -1,18 +1,19 @@
 import logging
+import asyncio
 from aiogram import Bot, Dispatcher, types
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
-from aiogram.utils import executor
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from aiogram.filters import Command
 import os
 import psycopg2
 from image_processing import extract_text, parse_wood_data
 
-API_TOKEN = "7768373361:AAGwbnauI9QF52yrP_lUaj1qWySeWr1bkgs"
-DB_CONNECTION = "postgresql://neondb_owner:npg_S5FME2mLobIN@ep-round-lab-a5x3kfeb-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require"
+API_TOKEN = os.getenv("API_TOKEN")
+DB_CONNECTION = os.getenv("DB_CONNECTION")
 
 logging.basicConfig(level=logging.INFO)
 
 bot = Bot(token=API_TOKEN)
-dp = Dispatcher(bot)
+dp = Dispatcher()
 
 # Подключение к БД
 def save_to_db(user_id, wood_data):
@@ -33,13 +34,13 @@ def save_to_db(user_id, wood_data):
     cursor.close()
     conn.close()
 
-@dp.message_handler(commands=['start'])
+@dp.message(Command("start"))
 async def start_command(message: types.Message):
     keyboard = ReplyKeyboardMarkup(resize_keyboard=True)
     keyboard.add(KeyboardButton("📷 Отправить бланк"))
     await message.answer("Привет! Отправь фото бланка сортировки для обработки.", reply_markup=keyboard)
 
-@dp.message_handler(content_types=['photo'])
+@dp.message(types.ContentType.PHOTO)
 async def handle_photo(message: types.Message):
     photo = message.photo[-1]
     file_info = await bot.get_file(photo.file_id)
@@ -66,5 +67,8 @@ async def handle_photo(message: types.Message):
     else:
         await message.answer("❌ Не удалось распознать данные. Попробуйте отправить более четкое фото.")
 
+async def main():
+    await dp.start_polling(bot)
+
 if __name__ == "__main__":
-    executor.start_polling(dp, skip_updates=True)
+    asyncio.run(main())
