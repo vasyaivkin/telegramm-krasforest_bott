@@ -1,5 +1,6 @@
-opencv-python
+aiogram==3.1.1
+aiohttp==3.8.5
 pytesseract
+opencv-python
 numpy
 psycopg2-binary
-aiogram==3.0.0
