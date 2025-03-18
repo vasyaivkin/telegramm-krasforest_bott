@@ -1,6 +1,6 @@
-FROM python:3.12
+FROM python:3.10  # Используем Python 3.10 (более стабильный для aiogram)
 
-# Устанавливаем системные зависимости для aiohttp и OpenCV
+# Устанавливаем системные библиотеки
 RUN apt-get update && apt-get install -y \
     libgl1-mesa-glx \
     libglib2.0-0 \
