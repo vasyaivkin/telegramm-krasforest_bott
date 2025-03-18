@@ -1,5 +1,5 @@
-aiogram
-pytesseract
 opencv-python
+pytesseract
 numpy
 psycopg2-binary
+aiogram==3.0.0
