@@ -1,0 +1,5 @@
+aiogram
+pytesseract
+opencv-python
+numpy
+psycopg2-binary
