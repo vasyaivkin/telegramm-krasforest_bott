@@ -1,4 +1,4 @@
-FROM python:3.10  # Используем Python 3.10 (более стабильный для aiogram)
+FROM python:3.10  # Используем Python 3.10 (лучше для aiogram)
 
 # Устанавливаем системные библиотеки
 RUN apt-get update && apt-get install -y \
@@ -16,8 +16,9 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 COPY . .
 
-# Обновляем pip и устанавливаем зависимости
+# Принудительно устанавливаем aiohttp и обновляем pip
 RUN pip install --upgrade pip setuptools wheel && \
+    pip install --no-cache-dir aiohttp==3.8.5 && \
     pip install --no-cache-dir -r requirements.txt
 
 CMD ["python", "telegram_bot.py"]
