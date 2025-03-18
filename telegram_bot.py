@@ -7,7 +7,7 @@ import psycopg2
 from image_processing import extract_text, parse_wood_data
 
 API_TOKEN = "7768373361:AAGwbnauI9QF52yrP_lUaj1qWySeWr1bkgs"
-DB_CONNECTION = "postgresql://user:password@localhost/wood_inventory"
+DB_CONNECTION = "postgresql://neondb_owner:npg_S5FME2mLobIN@ep-round-lab-a5x3kfeb-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require"
 
 logging.basicConfig(level=logging.INFO)
 
